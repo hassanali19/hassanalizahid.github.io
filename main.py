@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 import plotly.express as px
+import matplotlib.pyplot as plt  # <-- required for pandas Styler gradient
 
 st.set_page_config(page_title="MAX Network eCPM Insights", layout="wide")
 
