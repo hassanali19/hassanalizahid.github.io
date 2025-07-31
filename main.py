@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt  # <-- required for pandas Styler gradient
 st.set_page_config(page_title="MAX Network eCPM Insights", layout="wide")
 
 # ----------- 📥 USER INPUTS -----------
-st.title("📊 AppLovin Network Insights")
+st.title("📊 MAX Network eCPM Insights")
 
 api_key = st.text_input("Enter your AppLovin API Key")
 application = st.text_input("Enter your application package (e.g., com.example.app)")
