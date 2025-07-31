@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 import plotly.express as px
 
-st.set_page_config(page_title="AppLovin Network Insights", layout="wide")
+st.set_page_config(page_title="MAX Network eCPM Insights", layout="wide")
 
 # ----------- 📥 USER INPUTS -----------
 st.title("📊 AppLovin Network Insights")
@@ -55,11 +55,21 @@ if st.button("Fetch & Analyze"):
         df['cum_imp_percent'] = df['cum_imp_percent'].round(0).astype(int).astype(str) + '%'
 
         st.subheader("📋 Filtered Data")
-        st.dataframe(df.drop(columns=["imp_share_numeric"]))
+
+        # Reorder columns so imp_share_percent comes before cum_imp_percent
+        cols = list(df.columns)
+        if 'imp_share_percent' in cols and 'cum_imp_percent' in cols:
+            cols.remove('imp_share_percent')
+            cols.remove('cum_imp_percent')
+            reordered = cols + ['imp_share_percent', 'cum_imp_percent']
+        else:
+            reordered = df.columns
+
+        st.dataframe(df[reordered].drop(columns=["imp_share_numeric"]))
 
         st.download_button(
             "📥 Download CSV",
-            df.drop(columns=["imp_share_numeric"]).to_csv(index=False),
+            df[reordered].drop(columns=["imp_share_numeric"]).to_csv(index=False),
             file_name=f"{application.replace('.', '_')}_{country or 'all_countries'}_{ad_format}_{start_date}_to_{end_date}.csv",
             mime='text/csv'
         )
