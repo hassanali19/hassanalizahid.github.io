@@ -55,25 +55,11 @@ if st.button("Fetch & Analyze"):
         df['cum_imp_percent'] = df['cum_imp_percent'].round(0).astype(int).astype(str) + '%'
 
         st.subheader("📋 Filtered Data")
-
-        # Reorder columns to put imp_share_percent before cum_imp_percent
-        cols = list(df.columns)
-        if 'imp_share_percent' in cols and 'cum_imp_percent' in cols:
-            cols.remove('imp_share_percent')
-            cols.remove('cum_imp_percent')
-            reordered_cols = cols + ['imp_share_percent', 'cum_imp_percent']
-        else:
-            reordered_cols = df.columns
-
-        # Show dataframe with style on imp_share_percent
-        styled_df = df[reordered_cols].drop(columns=["imp_share_numeric"]).style.background_gradient(
-            subset=['imp_share_percent'], cmap='Greens'
-        )
-        st.dataframe(styled_df, use_container_width=True)
+        st.dataframe(df.drop(columns=["imp_share_numeric"]))
 
         st.download_button(
             "📥 Download CSV",
-            df[reordered_cols].drop(columns=["imp_share_numeric"]).to_csv(index=False),
+            df.drop(columns=["imp_share_numeric"]).to_csv(index=False),
             file_name=f"{application.replace('.', '_')}_{country or 'all_countries'}_{ad_format}_{start_date}_to_{end_date}.csv",
             mime='text/csv'
         )
